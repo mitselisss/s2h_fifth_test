@@ -17,12 +17,12 @@ class RegisterUserProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     class Meta:
         model = UserProfile
-        fields = ('user', 'gender', 'height', 'weight', 'yob', 'pal', 'halal', 'diary', 'eggs', 'fish', 'nuts', 'country')
+        fields = ('user', 'gender', 'height', 'weight', 'yob', 'pal', 'halal', 'diary', 'eggs', 'fish', 'nuts', 'country', 'countryLanguageCode')
 
 class UpdateUserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ('gender', 'height', 'weight', 'yob', 'pal', 'halal', 'diary', 'eggs', 'fish', 'nuts', 'country')
+        fields = ('gender', 'height', 'weight', 'yob', 'pal', 'halal', 'diary', 'eggs', 'fish', 'nuts', 'country', 'countryLanguageCode')
 
 class getUseProfileHistorySerializer(serializers.ModelSerializer):
 
@@ -45,7 +45,7 @@ class DishSerializer(serializers.ModelSerializer):
 
     def get_dish_language_info(self, obj):
         language = self.context.get('language')
-        dish_language = Dish_language.objects.filter(dish_id=obj.id, language='en')
+        dish_language = Dish_language.objects.filter(dish_id=obj.id, language=language)
         serializer = DishLanguageSerializer(dish_language, many=True)
         return serializer.data
 
@@ -53,20 +53,20 @@ class DishSerializer(serializers.ModelSerializer):
 class MealLanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Meal_language
-        fields = ('meal_id', 'language', 'name')
+        fields = '__all__'
 
 class MealSerializer(serializers.ModelSerializer):
 
-    dish_1 = DishSerializer(context={'language': 'en'})
-    dish_2 = DishSerializer(context={'language': 'en'})
-    dish_3 = DishSerializer(context={'language': 'en'})
-    dish_4 = DishSerializer(context={'language': 'en'})
-    dish_5 = DishSerializer(context={'language': 'en'})
-    dish_6 = DishSerializer(context={'language': 'en'})
-    dish_7 = DishSerializer(context={'language': 'en'})
-    dish_8 = DishSerializer(context={'language': 'en'})
-    dish_9 = DishSerializer(context={'language': 'en'})
-    dish_10 = DishSerializer(context={'language': 'en'})
+    dish_1 = DishSerializer()
+    dish_2 = DishSerializer()
+    dish_3 = DishSerializer()
+    dish_4 = DishSerializer()
+    dish_5 = DishSerializer()
+    dish_6 = DishSerializer()
+    dish_7 = DishSerializer()
+    dish_8 = DishSerializer()
+    dish_9 = DishSerializer()
+    dish_10 = DishSerializer()
     
     meal_language_info = serializers.SerializerMethodField()
 
@@ -77,14 +77,19 @@ class MealSerializer(serializers.ModelSerializer):
 
     def get_meal_language_info(self, obj):
         language = self.context.get('language')
-        meal_language = Meal_language.objects.filter(meal_id=obj.id, language='en')
+        meal_language = Meal_language.objects.filter(meal_id=obj.id, language=language)
         serializer = MealLanguageSerializer(meal_language, many=True)
         return serializer.data
+    
 
 class loadNPsSerializer(serializers.ModelSerializer):
-    
-    meals = MealSerializer(many=True, context={'language': 'en'})
+    meals = serializers.SerializerMethodField()
 
     class Meta:
         model = NP
         fields = '__all__'
+
+    def get_meals(self, instance):
+        language = self.context.get('language')
+        meal_serializer = MealSerializer(instance.meals.all(), many=True, context={'language': language})
+        return meal_serializer.data

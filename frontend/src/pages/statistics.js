@@ -79,6 +79,20 @@ function Stats() {
 
   const formattedMonday = `${m_year}-${m_month}-${m_day}`;
 
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize(); // Initial check
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   useEffect(() => {
     let max = 0;
     let min = 0;
@@ -370,7 +384,6 @@ function Stats() {
             <Bar data={data2} config={config2} options={config2.options} />
           </div>
         </div>
-
         <div className="stats-grid">
           <div>
             <div style={{ textAlign: "center" }}>
@@ -420,9 +433,7 @@ function Stats() {
             </div>
           </div>
         </div>
-        <div>
-          <Footer />
-        </div>
+        {!isMobile && <Footer />}{" "}
       </div>
     </div>
   );

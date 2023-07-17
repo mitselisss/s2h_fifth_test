@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 import LogoutAfterInactivity from "../components/logoutAfterInactivity";
 
 function UserProfilePage() {
@@ -28,8 +29,65 @@ function UserProfilePage() {
   const [fish, setFish] = useState(false);
   const [nuts, setNuts] = useState(false);
   const [country, setCountry] = useState("");
+  const [spain, setSpain] = useState(false);
+  const [turkey, setTurkey] = useState(false);
+  const [morocco, setMorocco] = useState(false);
+  const [countryLanguageCode, setCountryLanguageCode] = useState("");
   const [loading, setLoading] = useState();
   const { t } = useTranslation();
+
+  const GlobeIcon = ({ width = 24, height = 24 }) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={width}
+      height={height}
+      fill="currentColor"
+      className="bi bi-globe-europe-africa"
+      viewBox="0 0 16 16"
+    >
+      <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0ZM3.668 2.501l-.288.646a.847.847 0 0 0 1.479.815l.245-.368a.809.809 0 0 1 1.034-.275.809.809 0 0 0 .724 0l.261-.13a1 1 0 0 1 .775-.05l.984.34c.078.028.16.044.243.054.784.093.855.377.694.801-.155.41-.616.617-1.035.487l-.01-.003C8.274 4.663 7.748 4.5 6 4.5 4.8 4.5 3.5 5.62 3.5 7c0 1.96.826 2.166 1.696 2.382.46.115.935.233 1.304.618.449.467.393 1.181.339 1.877C6.755 12.96 6.674 14 8.5 14c1.75 0 3-3.5 3-4.5 0-.262.208-.468.444-.7.396-.392.87-.86.556-1.8-.097-.291-.396-.568-.641-.756-.174-.133-.207-.396-.052-.551a.333.333 0 0 1 .42-.042l1.085.724c.11.072.255.058.348-.035.15-.15.415-.083.489.117.16.43.445 1.05.849 1.357L15 8A7 7 0 1 1 3.668 2.501Z" />
+    </svg>
+  );
+
+  const globe_languages = [
+    {
+      code: "en",
+      name: "English",
+      country_code: "gb",
+    },
+
+    {
+      code: "fr",
+      name: "Français",
+      country_code: "fr",
+    },
+    {
+      code: "es",
+      name: "Español",
+      country_code: "es",
+    },
+
+    {
+      code: "tr",
+      name: "Türkçe",
+      country_code: "tr",
+    },
+  ];
+
+  const languages = {
+    en: {
+      name: t("English"),
+    },
+    fr: {
+      name: t("French"),
+    },
+    sp: {
+      name: t("Spanish"),
+    },
+    tr: {
+      name: t("Turkish"),
+    },
+  };
 
   const navigate = useNavigate();
   const [authTokens, setAuthTokens] = useState(() =>
@@ -71,6 +129,20 @@ function UserProfilePage() {
   const formattedSunday = `${s_year}-${s_month}-${s_day}`;
   const formattedNextMonday = `${nm_year}-${nm_month}-${nm_day}`;
 
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize(); // Initial check
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   useEffect(() => {
     if (user == null) {
       navigate("/");
@@ -95,10 +167,15 @@ function UserProfilePage() {
         setFish(response.data.fish);
         setNuts(response.data.nuts);
         setCountry(response.data.country);
+        setCountryLanguageCode(response.data.countryLanguageCode);
         setLoading(false);
       })();
     }
   }, []);
+
+  useEffect(() => {
+    handleCuisineLanguage();
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -124,6 +201,7 @@ function UserProfilePage() {
             fish: fish,
             nuts: nuts,
             country: country,
+            countryLanguageCode: countryLanguageCode,
           }
         );
 
@@ -142,6 +220,31 @@ function UserProfilePage() {
       }
     } else {
       // Handle if the user cancels the update
+    }
+  };
+
+  // Function to handle button click
+  const handleCuisineLanguage = () => {
+    // Perform action based on the selected country
+    switch (country) {
+      case "Spain":
+        // Action for Spain cuisine
+        setSpain(true);
+        setTurkey(false);
+        setMorocco(false);
+        break;
+      case "Turkey":
+        // Action for Turkey cuisine
+        setSpain(false);
+        setTurkey(true);
+        setMorocco(false);
+        break;
+      case "Morocco":
+        // Action for Morocco cuisine
+        setSpain(false);
+        setTurkey(false);
+        setMorocco(true);
+        break;
     }
   };
 
@@ -187,7 +290,37 @@ function UserProfilePage() {
                       <u>{t("Email")}:</u>
                       <p>{email}</p>
                     </div>
+                    <br></br>
+                    <div className="dropdown">
+                      <button
+                        className="btn btn-link dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        <GlobeIcon />
+                      </button>
+                      <ul className="dropdown-menu">
+                        {globe_languages.map(({ code, name, country_code }) => (
+                          <li key={country_code}>
+                            <button
+                              className="dropdown-item"
+                              onClick={() => {
+                                i18next.changeLanguage(code);
+                              }}
+                            >
+                              <span
+                                className={`flag-icon flag-icon-${country_code} mx-2`}
+                              ></span>
+
+                              {name}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
+
                   <div>
                     <div className="user-profile-font">
                       {t("Physical_Characteristics")}
@@ -420,7 +553,9 @@ function UserProfilePage() {
                         value="Spain"
                         checked={country === "Spain"}
                         onChange={(event) => setCountry(event.target.value)}
+                        onClick={handleCuisineLanguage}
                         className="user-font"
+                        required
                       />
                       {t("Spain")}
                     </div>
@@ -431,7 +566,9 @@ function UserProfilePage() {
                         value="Turkey"
                         checked={country === "Turkey"}
                         onChange={(event) => setCountry(event.target.value)}
+                        onClick={handleCuisineLanguage}
                         className="user-font"
+                        required
                       />
                       {t("Turkey")}
                     </div>
@@ -442,11 +579,80 @@ function UserProfilePage() {
                         value="Morocco"
                         checked={country === "Morocco"}
                         onChange={(event) => setCountry(event.target.value)}
+                        onClick={handleCuisineLanguage}
                         className="user-font"
+                        required
                       />
                       {t("Morocco")}
                     </div>
                     <br></br>
+                    <div>
+                      <label className="user-profile-font">
+                        {t("daily_plans")}:
+                      </label>
+                      {country && (
+                        <div>
+                          {spain && (
+                            <div>
+                              <input
+                                type="radio"
+                                name="countryLanguage"
+                                value="sp"
+                                onChange={(event) => {
+                                  setCountryLanguageCode(event.target.value);
+                                }}
+                                className="user-font"
+                                required
+                              />
+                              {languages["sp"]?.name || ""}
+                            </div>
+                          )}
+                          {turkey && (
+                            <div>
+                              <input
+                                type="radio"
+                                name="countryLanguage"
+                                value="tr"
+                                onChange={(event) => {
+                                  setCountryLanguageCode(event.target.value);
+                                }}
+                                className="user-font"
+                                required
+                              />
+                              {languages["tr"]?.name || ""}
+                            </div>
+                          )}
+                          {morocco && (
+                            <div>
+                              <input
+                                type="radio"
+                                name="countryLanguage"
+                                value="fr"
+                                onChange={(event) => {
+                                  setCountryLanguageCode(event.target.value);
+                                }}
+                                className="user-font"
+                                required
+                              />
+                              {languages["fr"]?.name || ""}
+                            </div>
+                          )}
+                          <div>
+                            <input
+                              type="radio"
+                              name="countryLanguage"
+                              value="en"
+                              onChange={(event) => {
+                                setCountryLanguageCode(event.target.value);
+                              }}
+                              className="user-font"
+                              required
+                            />
+                            {t("English")}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <br></br>
@@ -472,7 +678,7 @@ function UserProfilePage() {
           </div>
         </div>
       </div>
-      <Footer />
+      {!isMobile && <Footer />}{" "}
     </div>
   );
 }

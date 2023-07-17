@@ -562,7 +562,8 @@ function HomePage() {
             </div>
             <br></br>
           </div>
-          <Footer />
+          {!isMobile && <Footer />}{" "}
+          {/* Render Footer only if isMobile is false */}
         </div>
       </div>
     </div>

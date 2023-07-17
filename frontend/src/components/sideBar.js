@@ -6,10 +6,13 @@ import { faDoorOpen, faBars } from "@fortawesome/free-solid-svg-icons";
 import jwt_decode from "jwt-decode";
 import "./sideBar.css";
 import { useTranslation } from "react-i18next";
-
+import Footer2 from "../components/footer2.js";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { faTiktok } from "@fortawesome/free-brands-svg-icons";
+import { faYoutube } from "@fortawesome/free-brands-svg-icons";
+import { faLink } from "@fortawesome/free-solid-svg-icons";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 function SideBar() {
   const { t } = useTranslation();
@@ -36,15 +39,15 @@ function SideBar() {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setIsSidebarOpen(true);
-      } else {
-        setIsSidebarOpen(false);
-      }
+      setIsMobile(window.innerWidth <= 768);
+      setIsSidebarOpen(window.innerWidth > 768); // Automatically open the sidebar on larger screens
     };
+
+    handleResize(); // Initial check
 
     window.addEventListener("resize", handleResize);
     return () => {
@@ -74,9 +77,44 @@ function SideBar() {
             {/* <div>
                   <button onClick={toggleVisibility}>User Profile</button>
                 </div> */}
-            <Link to="/stats" className="menu-option">
+            {/* <Link to="/stats" className="menu-option">
               <label className="custom-font3">{t("Charts")}</label>
-            </Link>
+            </Link> */}
+            <div className="dropdown">
+              <button
+                className="btn btn-link dropdown-toggle"
+                type="button"
+                id="chartsDropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <label className="custom-font3" style={{ color: "#fff0ba" }}>
+                  {t("Charts")}
+                </label>
+              </button>
+              <ul className="dropdown-menu" aria-labelledby="chartsDropdown">
+                <li>
+                  <Link to="/weight" className="dropdown-item">
+                    {t("Weight_History")}
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/fruits" className="dropdown-item">
+                    {t("Fruits and Vegetables")}
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/energy" className="dropdown-item">
+                    {t("Energy Intake")}
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/micronutrients" className="dropdown-item">
+                    {t("Macronutrients")}
+                  </Link>
+                </li>
+              </ul>
+            </div>
             <hr></hr>
             <Link to="/about" className="menu-option">
               <label className="custom-font3">{t("About")}</label>
@@ -102,12 +140,35 @@ function SideBar() {
           <div className="social-icons">
             <p className="custom-font">
               <a
+                href="https://switchtohealthy.eu/index.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FontAwesomeIcon
+                  icon={faLink}
+                  beatFade
+                  style={{ color: "#f3606f" }}
+                />
+              </a>
+              <a
+                href="https://www.youtube.com/@switchtohealthy6290"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FontAwesomeIcon
+                  icon={faYoutube}
+                  beatFade
+                  style={{ color: "#ff0000" }}
+                />
+              </a>
+              <a
                 href="https://twitter.com/SWITCHtoHEALTH1"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <FontAwesomeIcon
                   icon={faTwitter}
+                  beatFade
                   style={{ color: "#1DA1F2" }}
                 />
               </a>
@@ -118,6 +179,7 @@ function SideBar() {
               >
                 <FontAwesomeIcon
                   icon={faLinkedin}
+                  beatFade
                   style={{ color: "#0077B5" }}
                 />
               </a>
@@ -129,14 +191,24 @@ function SideBar() {
                 <FontAwesomeIcon
                   icon={faTiktok}
                   className="tiktok-icon"
+                  beatFade
                   style={{ color: "#28ffff" }}
                 />
               </a>
             </p>
           </div>
+          {isMobile && <Footer2 />}
         </div>
-        <div className="sidebar-toggle" onClick={toggleSidebar}>
-          <FontAwesomeIcon icon={faBars} size="2x" />
+        <div
+          className={`sidebar-toggle ${isSidebarOpen ? "open" : ""}`}
+          onClick={toggleSidebar}
+        >
+          <div className="expand-sidebar">
+            <FontAwesomeIcon
+              icon={isSidebarOpen ? faTimes : faBars}
+              size="2x"
+            />
+          </div>
         </div>
       </div>
     </div>

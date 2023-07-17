@@ -22,6 +22,7 @@ class UserProfile(models.Model):
     fish = models.BooleanField()
     nuts = models.BooleanField(null=True)
     country = models.CharField(max_length=20, null=True)
+    countryLanguageCode = models.CharField(max_length=5, null=True)
 
     def __str__(self):
         return str(self.user.username)
@@ -87,6 +88,7 @@ class UserProfileHistory(models.Model):
     fish = models.BooleanField()
     nuts = models.BooleanField(null=True)
     country = models.CharField(max_length=20)
+    countryLanguageCode = models.CharField(max_length=5, null=True)
     updated_at = models.DateTimeField()
 
     class Meta:

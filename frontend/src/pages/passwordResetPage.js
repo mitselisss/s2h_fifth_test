@@ -1,8 +1,9 @@
 import React from "react";
 import logo from "../images/logo/logo2.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../components/footer.js";
+import Footer2 from "../components/footer2.js";
 import SocialIcons from "../components/socialIcons.js";
 import { useTranslation } from "react-i18next";
 
@@ -23,13 +24,25 @@ function PasswordResetPage() {
       setErrorMessage("");
     }
   };
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize(); // Initial check
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const { t } = useTranslation();
 
   return (
     <div classname="App">
-      <Footer />
-
       <header className="App-header">
         <form>
           <img src={logo} className="Forgot-logo" alt="logo" />
@@ -70,6 +83,9 @@ function PasswordResetPage() {
         </Link>
       </header>
       <SocialIcons />
+      <br></br>
+      <br></br>
+      {isMobile ? <Footer2 /> : <Footer />}
     </div>
   );
 }

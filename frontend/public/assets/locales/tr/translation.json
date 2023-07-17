@@ -89,5 +89,14 @@
   "about_3": "Bu yaklaşımda, dijital etkileşimli araçlar (SWITCHtoHEALTHY Uygulaması) ebeveynler tarafından ana öğünler için haftalık daha sağlıklı beslenme planları hazırlamalarına destek olmak için kullanılırken, eğitim materyalleri ebeveynler tarafından destekleyici olarak kullanılacaktır. ailelere daha sağlıklı alışkanlıklar kazandırmak ve çocuk ve ergenleri eğitmek.",
   "about_4": "Son olarak, sağlıklı ve besleyici bitki bazlı atıştırmalıklar, çocukların diyet planlarına eklenecek ve öğün aralarında daha az sağlıklı seçeneklerin yerini alacak.",
   "about_5": "SWITCHtoHEALTHY, aile bağlamını hesaba katan ve çocukların/ergenlerin-ebeveynlerin karşılıklı etkisini ve sağlıklı beslenme ve yaşam tarzındaki rollerini değerlendiren aile içi sistemik bir yaklaşım benimseyerek Akdeniz Diyetine (MD) bağlılığın artmasına neden olacaktır. ; tarımsal gıda üreticilerini (özellikle KOBİ'leri) yeni iş fırsatları bulma konusunda desteklemek için bileşenlerin yakınlığına, sürdürülebilirliğe ve sağlıklı tüketime dayalı yenilikçi çözümler (bitki bazlı atıştırmalıklar) geliştirmek; geleneksel Akdeniz gıda sektöründe iş yaratma fırsatları ve çeşitlendirme; gıda şirketlerini desteklemek yenilikçi tüketici odaklı BM'ler tasarlayarak pazarın kabulünün önündeki engelleri aşmak ve sürdürülebilir bir rekabet avantajı elde etmek; bir MD'ye yüksek bağlılıktan elde edilen sağlıklı faydalar konusunda farkındalığı artırmak, yerel Med ürünleri hakkındaki bilgiyi artırmak ve böylece sağlıklı gıda seçimlerini iyileştirmeye katkıda bulunmak aileler arasında; tarım, sağlık, eğitim, çevre, ticaret vb. sektörler arası politika tutarlılığının yerelden ulusal ve uluslararası düzeye kadar sinerji oluşturması ve toplumun tüm aktörleri ile tartışılması.",
-  "about_6": " SWITCHtoHEALTHY, Akdeniz'in her iki kıyısındaki 8 ülkeden (İtalya, Mısır, İspanya, Yunanistan, Lübnan, Fas, Tunus ve Türkiye) 18 prestijli kuruluşu (kamu ve özel) içermektedir. Daha fazla bilgi projede bulunabilir. İnternet sitesi:"
+  "about_6": " SWITCHtoHEALTHY, Akdeniz'in her iki kıyısındaki 8 ülkeden (İtalya, Mısır, İspanya, Yunanistan, Lübnan, Fas, Tunus ve Türkiye) 18 prestijli kuruluşu (kamu ve özel) içermektedir. Daha fazla bilgi projede bulunabilir. İnternet sitesi:",
+  "Weight_History": "Kilo Geçmişi",
+  "Energy_Intake": "Enerji Alımı",
+  "Fruits": "Meyve ve Sebzeler",
+  "Macronutrients": "Makrobesinler",
+  "daily_plans": "günlük planlar sunuldu",
+  "English": "İngilizce",
+  "French": "Fransızca",
+  "Spanish": "İspanyolca",
+  "Turkish": "Türkçe"
 }

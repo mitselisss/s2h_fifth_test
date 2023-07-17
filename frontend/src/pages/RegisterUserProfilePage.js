@@ -23,6 +23,10 @@ function RegisterUserProfilePage() {
   const [fish, setFish] = useState(false);
   const [nuts, setNuts] = useState(false);
   const [country, setCountry] = useState("");
+  const [spain, setSpain] = useState(false);
+  const [turkey, setTurkey] = useState(false);
+  const [morocco, setMorocco] = useState(false);
+  const [countryLanguageCode, setCountryLanguageCode] = useState("");
   const location = useLocation();
   const [infoMessage, setInfoMessage] = useState("");
 
@@ -40,6 +44,21 @@ function RegisterUserProfilePage() {
   );
   const { t } = useTranslation();
 
+  const languages = {
+    en: {
+      name: t("English"),
+    },
+    fr: {
+      name: t("French"),
+    },
+    sp: {
+      name: t("Spanish"),
+    },
+    tr: {
+      name: t("Turkish"),
+    },
+  };
+
   useEffect(() => {
     if (user == null) {
       navigate("/");
@@ -49,6 +68,10 @@ function RegisterUserProfilePage() {
       }
     }
   }, []);
+
+  useEffect(() => {
+    handleCuisineLanguage();
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -67,6 +90,7 @@ function RegisterUserProfilePage() {
           fish: fish,
           nuts: nuts,
           country: country,
+          countryLanguageCode: countryLanguageCode,
         })
         .then((res) => {
           // console.log(res.data.success);
@@ -81,6 +105,31 @@ function RegisterUserProfilePage() {
         });
     } catch (error) {
       console.error("Error saving username and password.", error);
+    }
+  };
+
+  // Function to handle button click
+  const handleCuisineLanguage = () => {
+    // Perform action based on the selected country
+    switch (country) {
+      case "Spain":
+        // Action for Spain cuisine
+        setSpain(true);
+        setTurkey(false);
+        setMorocco(false);
+        break;
+      case "Turkey":
+        // Action for Turkey cuisine
+        setSpain(false);
+        setTurkey(true);
+        setMorocco(false);
+        break;
+      case "Morocco":
+        // Action for Morocco cuisine
+        setSpain(false);
+        setTurkey(false);
+        setMorocco(true);
+        break;
     }
   };
 
@@ -328,6 +377,7 @@ function RegisterUserProfilePage() {
                         value="Spain"
                         checked={country === "Spain"}
                         onChange={(event) => setCountry(event.target.value)}
+                        onClick={handleCuisineLanguage}
                         className="user-font"
                         required
                       />
@@ -340,6 +390,7 @@ function RegisterUserProfilePage() {
                         value="Turkey"
                         checked={country === "Turkey"}
                         onChange={(event) => setCountry(event.target.value)}
+                        onClick={handleCuisineLanguage}
                         className="user-font"
                         required
                       />
@@ -352,10 +403,79 @@ function RegisterUserProfilePage() {
                         value="Morocco"
                         checked={country === "Morocco"}
                         onChange={(event) => setCountry(event.target.value)}
+                        onClick={handleCuisineLanguage}
                         className="user-font"
                         required
                       />
                       {t("Morocco")}
+                    </div>
+                    <br></br>
+                    <div>
+                      <label className="user-profile-font">
+                        {t("daily_plans")}:
+                      </label>
+                      {country && (
+                        <div>
+                          {spain && (
+                            <div>
+                              <input
+                                type="radio"
+                                name="countryLanguage"
+                                value="sp"
+                                onChange={(event) => {
+                                  setCountryLanguageCode(event.target.value);
+                                }}
+                                className="user-font"
+                                required
+                              />
+                              {languages["sp"]?.name || ""}
+                            </div>
+                          )}
+                          {turkey && (
+                            <div>
+                              <input
+                                type="radio"
+                                name="countryLanguage"
+                                value="tr"
+                                onChange={(event) => {
+                                  setCountryLanguageCode(event.target.value);
+                                }}
+                                className="user-font"
+                                required
+                              />
+                              {languages["tr"]?.name || ""}
+                            </div>
+                          )}
+                          {morocco && (
+                            <div>
+                              <input
+                                type="radio"
+                                name="countryLanguage"
+                                value="fr"
+                                onChange={(event) => {
+                                  setCountryLanguageCode(event.target.value);
+                                }}
+                                className="user-font"
+                                required
+                              />
+                              {languages["fr"]?.name || ""}
+                            </div>
+                          )}
+                          <div>
+                            <input
+                              type="radio"
+                              name="countryLanguage"
+                              value="en"
+                              onChange={(event) => {
+                                setCountryLanguageCode(event.target.value);
+                              }}
+                              className="user-font"
+                              required
+                            />
+                            {t("English")}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

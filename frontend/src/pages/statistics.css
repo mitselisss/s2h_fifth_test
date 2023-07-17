@@ -64,3 +64,15 @@
   width: 70%;
   height: 70%;
 }
+
+.polar-area-chart {
+  width: 100%; /* To make the chart container responsive */
+  max-width: 400px;
+  height: auto; /* To maintain aspect ratio */
+}
+
+.pie-area-chart {
+  width: 100%; /* To make the chart container responsive */
+  max-width: 300px; /* Set the maximum width for the chart */
+  height: auto; /* To maintain aspect ratio */
+}

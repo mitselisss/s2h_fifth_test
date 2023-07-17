@@ -123,6 +123,7 @@ def IdUserProfile(request, pk):
                 fish = request.data["fish"],
                 nuts = request.data["nuts"],
                 country = request.data["country"],
+                countryLanguageCode = request.data["countryLanguageCode"],
                 updated_at = timezone.now(),
             )
 
@@ -159,11 +160,13 @@ def getCurrentWeekNPs(request, userid, weekMonday):
 
     if request.method == 'GET':
         user = User.objects.get(id = userid)
+        userProfile = UserProfile.objects.get(user = user)
+        language = userProfile.countryLanguageCode
         NPs = NP.objects.filter(user = user, start_date = weekMonday)
 
         #week_count = NP.objects.filter(user=user).values('week').annotate(week_count=Count('week')).count()
 
-        serializer = loadNPsSerializer(NPs, many=True)
+        serializer = loadNPsSerializer(NPs, many=True, context={'language': language})
         return Response(serializer.data)
 
 @api_view(['GET'])
@@ -174,7 +177,7 @@ def CreateNPs(request, userid, weekMonday, weekSunday):
     # Get all the user info we need in order to produce the NPs
     user = User.objects.get(id = userid)
     userProfile = UserProfile.objects.get(user = user) 
-    language = 'en' # this will be a query
+    language = userProfile.countryLanguageCode 
 
     energy_intake = userProfile.energy_intake
     #energy_intake = 2800
@@ -219,7 +222,7 @@ def CreateNPs(request, userid, weekMonday, weekSunday):
         #print("edw3")
     
     # Create all possible combination of meals and keep only x number of them
-    all_list = [meals.filter(type=meal_type) for meal_type in ('Breakfast', 'Morning Snack', 'Lunch', 'Afternoon Snack', 'Dinner')]
+    all_list = [meals.filter(type=meal_type) for meal_type in ('Breakfast', 'Morning_Snack', 'Lunch', 'Afternoon_Snack', 'Dinner')]
     r = list(itertools.product(*all_list))
     res = random.choices(r, k=80000) 
 
@@ -273,7 +276,7 @@ def CreateNPs(request, userid, weekMonday, weekSunday):
     #print("elapsed3_time:", step3_elapsed_time)
 
     NPs = NP.objects.filter(user = user, start_date = weekMonday)
-    serializer = loadNPsSerializer(NPs, many=True)
+    serializer = loadNPsSerializer(NPs, many=True, context={'language': language})
     return Response(serializer.data)
 
     
@@ -287,7 +290,7 @@ def updateCurrentWeekNPs(request, userid, weekMonday):
         # Get all the user info we need in order to produce the NPs
         user = User.objects.get(id = userid)
         userProfile = UserProfile.objects.get(user = user) 
-        language = 'en' # this will be a query
+        language = userProfile.countryLanguageCode 
 
         energy_intake = userProfile.energy_intake
         #energy_intake = 2800
@@ -334,7 +337,7 @@ def updateCurrentWeekNPs(request, userid, weekMonday):
         
         
         # Create all possible combination of meals and keep only x number of them
-        all_list = [meals.filter(type=meal_type) for meal_type in ('Breakfast', 'Morning Snack', 'Lunch', 'Afternoon Snack', 'Dinner')]
+        all_list = [meals.filter(type=meal_type) for meal_type in ('Breakfast', 'Morning_Snack', 'Lunch', 'Afternoon_Snack', 'Dinner')]
         r = list(itertools.product(*all_list))
         res = random.choices(r, k=80000) 
 
@@ -383,7 +386,7 @@ def updateCurrentWeekNPs(request, userid, weekMonday):
 
 
         NPs = NP.objects.filter(user = user, start_date = weekMonday)
-        serializer = loadNPsSerializer(NPs, many=True)
+        serializer = loadNPsSerializer(NPs, many=True, context={'language': language})
         return Response(serializer.data)
 
     
@@ -392,6 +395,8 @@ def getPreviousWeekNPs(request, userid, week):
 
     if request.method == 'GET':
         user = User.objects.get(id = userid)
+        userProfile = UserProfile.objects.get(user = user) 
+        language = userProfile.countryLanguageCode
 
         weeks = set(NP.objects.filter(user=user).order_by('week').values_list('week', flat=True))
         weeks_list = sorted(list(weeks))
@@ -404,7 +409,7 @@ def getPreviousWeekNPs(request, userid, week):
         
         NPs = NP.objects.filter(user = user, week = previous_week)
 
-        serializer = loadNPsSerializer(NPs, many=True)
+        serializer = loadNPsSerializer(NPs, many=True, context={'language': language})
         return Response(serializer.data)
     
 @api_view(['GET'])
@@ -412,6 +417,8 @@ def getNextWeekNPs(request, userid, week):
 
     if request.method == 'GET':
         user = User.objects.get(id = userid)
+        userProfile = UserProfile.objects.get(user = user) 
+        language = userProfile.countryLanguageCode
         
         #last_week = NP.objects.aggregate(latest_week=Max('week'))['latest_week']
         #week_count = NP.objects.filter(user=user).values('week').annotate(week_count=Count('week')).count()
@@ -426,7 +433,7 @@ def getNextWeekNPs(request, userid, week):
 
         NPs = NP.objects.filter(user = user, week = next_week)
 
-        serializer = loadNPsSerializer(NPs, many=True)
+        serializer = loadNPsSerializer(NPs, many=True, context={'language': language})
         return Response(serializer.data)
     
 

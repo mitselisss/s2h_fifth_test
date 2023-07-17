@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import logo from "../images/logo/logo2.png";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import Footer from "../components/footer.js";
+import Footer2 from "../components/footer2.js";
 import SocialIcons from "../components/socialIcons.js";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
@@ -55,6 +56,22 @@ function RegisterPage() {
       country_code: "tr",
     },
   ];
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize(); // Initial check
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -101,8 +118,6 @@ function RegisterPage() {
 
   return (
     <div>
-      <Footer />
-
       <div className="App">
         <header className="App-header">
           <div className="alert-container">
@@ -217,6 +232,7 @@ function RegisterPage() {
         </header>
         <SocialIcons />
       </div>
+      {isMobile ? <Footer2 /> : <Footer />}
     </div>
   );
 }

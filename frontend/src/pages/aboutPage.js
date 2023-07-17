@@ -9,7 +9,19 @@ import { useTranslation } from "react-i18next";
 
 function AboutPage() {
   const { t } = useTranslation();
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
 
+    handleResize(); // Initial check
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   LogoutAfterInactivity();
 
   return (
@@ -49,7 +61,7 @@ function AboutPage() {
           </div>
         </div>
       </div>
-      <Footer />
+      {!isMobile && <Footer />}{" "}
     </div>
   );
 }

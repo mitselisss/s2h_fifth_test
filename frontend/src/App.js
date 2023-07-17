@@ -8,6 +8,10 @@ import PasswordResetPage from "./pages/passwordResetPage";
 import RegisterUserProfilePage from "./pages/RegisterUserProfilePage";
 import AboutPage from "./pages/aboutPage";
 import Stats from "./pages/statistics";
+import Fruits from "./pages/fruits";
+import Energy from "./pages/energy";
+import Micronutrients from "./pages/micronutrients";
+import Weight from "./pages/weight";
 
 function App() {
   return (
@@ -21,7 +25,10 @@ function App() {
         <Route path="/userProfile" element={<UserProfilePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/stats" element={<Stats />} />
-        <Route path="/newUser" element={<newUserProfilePage />} />
+        <Route path="/fruits" element={<Fruits />} />
+        <Route path="/energy" element={<Energy />} />
+        <Route path="/micronutrients" element={<Micronutrients />} />
+        <Route path="/weight" element={<Weight />} />
       </Routes>
     </Router>
   );
