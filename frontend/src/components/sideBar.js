@@ -94,22 +94,22 @@ function SideBar() {
               </button>
               <ul className="dropdown-menu" aria-labelledby="chartsDropdown">
                 <li>
-                  <Link to="/weight" className="dropdown-item">
+                  <Link to="/charts/weight" className="dropdown-item">
                     {t("Weight_History")}
                   </Link>
                 </li>
                 <li>
-                  <Link to="/fruits" className="dropdown-item">
+                  <Link to="/charts/fruits" className="dropdown-item">
                     {t("Fruits and Vegetables")}
                   </Link>
                 </li>
                 <li>
-                  <Link to="/energy" className="dropdown-item">
+                  <Link to="/charts/energy" className="dropdown-item">
                     {t("Energy Intake")}
                   </Link>
                 </li>
                 <li>
-                  <Link to="/micronutrients" className="dropdown-item">
+                  <Link to="/charts/micronutrients" className="dropdown-item">
                     {t("Macronutrients")}
                   </Link>
                 </li>

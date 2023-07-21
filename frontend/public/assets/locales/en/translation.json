@@ -77,6 +77,7 @@
   "register_error_1": "Username already exist.",
   "register_error_2": "Passowrd and comfirm password do not match.",
   "register_error_3": "Invalid password. Please check for the password validations.",
+  "register_error_4": "Email already exist.",
   "password_message_1": "Your password can’t be too similar to your other personal information.",
   "password_message_2": "Your password must contain at least 8 characters",
   "password_message_3": "Your password can’t be a commonly used password",

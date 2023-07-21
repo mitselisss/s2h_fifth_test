@@ -77,6 +77,7 @@
   "register_error_1": "Nom d'utilisateur existe déjà.",
   "register_error_2": "Le mot de passe et le mot de passe de confirmation ne correspondent pas.",
   "register_error_3": "Mot de passe incorrect. Veuillez vérifier les validations du mot de passe.",
+  "register_error_4": "L'e-mail existe déjà.",
   "password_message_1": "Votre mot de passe ne doit pas être trop similaire à vos autres informations personnelles.",
   "password_message_2": "Votre mot de passe doit contenir au moins 8 caractères",
   "password_message_3": "Votre mot de passe ne peut pas être un mot de passe couramment utilisé",

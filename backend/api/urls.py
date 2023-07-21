@@ -14,6 +14,7 @@ urlpatterns = [
     path('<str:userid>/<str:weekMonday>/updateCurrentWeekNPs', views.updateCurrentWeekNPs, name='updateCurrentWeekNPs'),
     path('<str:userid>/<str:week>/getPreviousWeekNPs', views.getPreviousWeekNPs, name='getPreviousWeekNPs'),
     path('<str:userid>/<str:week>/getNextWeekNPs', views.getNextWeekNPs, name='getNextWeekNPs'),
+    path('<str:userid>/getWeeks', views.getWeeks, name='getWeeks'),
 
     path('<str:userid>/getUserHistory', views.getUserHistory, name='getUserHistory'),
     path('<str:userid>/<str:weekMonday>/getWeeklyNPs', views.getWeeklyNPs, name='getWeeklyNPs'),

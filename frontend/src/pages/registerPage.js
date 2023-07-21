@@ -94,18 +94,22 @@ function RegisterPage() {
           }
         });
     } catch (error) {
-      if (error.response.data.error === "Username already exist.") {
+      console.log(error.response.data.error);
+      if (error.response.data.error === "Username already exist") {
         setErrorMessage(t("register_error_1"));
+      }
+      if (error.response.data.error === "Email already exist") {
+        setErrorMessage(t("register_error_4"));
       }
       if (
         error.response.data.error ===
-        "Passowrd and comfirm password do not match."
+        "Passowrd and comfirm password do not match"
       ) {
         setErrorMessage(t("register_error_2"));
       }
       if (
         error.response.data.error ===
-        "Invalid password. Please check for the password validations."
+        "Invalid password. Please check for the password validations"
       ) {
         setErrorMessage(t("register_error_3"));
       }

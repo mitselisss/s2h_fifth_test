@@ -77,6 +77,7 @@
   "register_error_1": "El nombre de usuario ya existe.",
   "register_error_2": "La contraseña y la contraseña de confirmación no coinciden.",
   "register_error_3": "Contraseña invalida. Por favor, compruebe las validaciones de contraseña.",
+  "register_error_4": "El correo electrónico ya existe.",
   "password_message_1": "Tu contraseña no puede ser muy similar a tu otra información personal.",
   "password_message_2": "Tu contraseña debe contener al menos 8 caracteres",
   "password_message_3": "Su contraseña no puede ser una contraseña de uso común",

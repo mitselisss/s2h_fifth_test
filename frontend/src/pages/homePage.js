@@ -17,6 +17,8 @@ function HomePage() {
   const [NPs, setNPs] = useState([]);
   const [selectedDay, setSelectedDay] = useState(1);
   const [selectedDish, setSelectedDish] = useState(null);
+  const [weekList, setWeekList] = useState([]);
+  const [weekCount, setWeekCount] = useState();
   const [loading, setLoading] = useState();
   const location = useLocation();
   const navigate = useNavigate();
@@ -119,6 +121,7 @@ function HomePage() {
           const response = await axios.get(
             `${user.user_id}/${formattedMonday}/getCurrentWeekNPs`
           );
+          //console.log(response.data);
           if (response.data.length === 0) {
             try {
               const createResponse = await axios.get(
@@ -187,6 +190,16 @@ function HomePage() {
             }
           } else {
           }
+        } catch (error) {
+          console.error(error);
+        }
+
+        try {
+          const getWeeksresponse = await axios.get(`${user.user_id}/getWeeks`);
+          //console.log(getWeeksresponse.data.week_list);
+          //console.log(getWeeksresponse.data.week_count);
+          setWeekList(getWeeksresponse.data.week_list);
+          setWeekCount(getWeeksresponse.data.week_count);
         } catch (error) {
           console.error(error);
         }
@@ -288,7 +301,6 @@ function HomePage() {
     <div className="parent-container">
       <div className="page-container">
         <SideBar />
-
         <div className="rightpart">
           {loading && (
             <div class="text-center">
@@ -324,7 +336,7 @@ function HomePage() {
                       <button
                         className="previousweek"
                         onClick={handlePreviousWeek}
-                        disabled={week === 1}
+                        disabled={week === weekList[0]}
                       ></button>
                     </div>
                     <div className="col-md-auto">
@@ -338,6 +350,7 @@ function HomePage() {
                       <button
                         className="nextweek"
                         onClick={handleNextWeek}
+                        disabled={week === weekList[weekCount - 1]}
                       ></button>
                     </div>
                   </div>

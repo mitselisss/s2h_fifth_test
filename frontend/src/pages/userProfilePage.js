@@ -598,6 +598,7 @@ function UserProfilePage() {
                                 type="radio"
                                 name="countryLanguage"
                                 value="sp"
+                                checked={countryLanguageCode === "sp"}
                                 onChange={(event) => {
                                   setCountryLanguageCode(event.target.value);
                                 }}
@@ -613,6 +614,7 @@ function UserProfilePage() {
                                 type="radio"
                                 name="countryLanguage"
                                 value="tr"
+                                checked={countryLanguageCode === "tr"}
                                 onChange={(event) => {
                                   setCountryLanguageCode(event.target.value);
                                 }}
@@ -628,6 +630,7 @@ function UserProfilePage() {
                                 type="radio"
                                 name="countryLanguage"
                                 value="fr"
+                                checked={countryLanguageCode === "fr"}
                                 onChange={(event) => {
                                   setCountryLanguageCode(event.target.value);
                                 }}
@@ -642,6 +645,7 @@ function UserProfilePage() {
                               type="radio"
                               name="countryLanguage"
                               value="en"
+                              checked={countryLanguageCode === "en"}
                               onChange={(event) => {
                                 setCountryLanguageCode(event.target.value);
                               }}

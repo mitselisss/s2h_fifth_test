@@ -1,6 +1,7 @@
 import time
 import random
 import itertools
+from django.db.models import Count
 from .models import *
 from .serializers import *
 from django.utils import timezone
@@ -57,26 +58,30 @@ def Register(request):
             return JsonResponse({'error': "Username already exist"}, status=400)     
         except:
             try:
-                validate_password(password)
-                validate_password(password2)
-                if password == password2:
-                    password = make_password(data['password']) 
-                    data_dict = {'email': email, 'username': username, 'password': password}
-                    serializer = UserSerializer(data=data_dict)
-                    if serializer.is_valid():
-                        serializer.save()
-                        user = User.objects.get(username=username)
-                        profile = UserProfile(user = user, gender='male', yob=1994, height=1.88, weight=85, pal='Active', halal=False, diary=False, eggs=False, fish=False, country='Spain', age=29, bmi=1, bmr=1, energy_intake=1)
-                        profile.save()
-                        refresh = RefreshToken.for_user(user)
-                        return Response({
-                            'access_token': str(refresh.access_token),
-                            'refresh_token': str(refresh)
-                        })
-                else:
-                    return JsonResponse({'error': "Passowrd and comfirm password do not match."}, status=400)
+                user = User.objects.get(email = email)
+                return JsonResponse({'error': "Email already exist"}, status=400) 
             except:
-                return JsonResponse({'error': "Invalid password. Please check for the password validations."}, status=400)
+                try:
+                    validate_password(password)
+                    validate_password(password2)
+                    if password == password2:
+                        password = make_password(data['password']) 
+                        data_dict = {'email': email, 'username': username, 'password': password}
+                        serializer = UserSerializer(data=data_dict)
+                        if serializer.is_valid():
+                            serializer.save()
+                            user = User.objects.get(username=username)
+                            profile = UserProfile(user = user, gender='male', yob=1994, height=1.88, weight=85, pal='Active', halal=False, diary=False, eggs=False, fish=False, country='Spain', age=29, bmi=1, bmr=1, energy_intake=1)
+                            profile.save()
+                            refresh = RefreshToken.for_user(user)
+                            return Response({
+                                'access_token': str(refresh.access_token),
+                                'refresh_token': str(refresh)
+                            })
+                    else:
+                        return JsonResponse({'error': "Passowrd and comfirm password do not match"}, status=400)
+                except:
+                    return JsonResponse({'error': "Invalid password. Please check for the password validations"}, status=400)
 
 
 @api_view(['POST'])
@@ -435,6 +440,21 @@ def getNextWeekNPs(request, userid, week):
 
         serializer = loadNPsSerializer(NPs, many=True, context={'language': language})
         return Response(serializer.data)
+    
+@api_view(['GET'])
+def getWeeks(request, userid):
+
+    if request.method == 'GET':
+
+        user = User.objects.get(id = userid)
+        weeks = set(NP.objects.filter(user=user).order_by('week').values_list('week', flat=True))
+        week_count = NP.objects.filter(user=user).values('week').annotate(week_count=Count('week')).count()
+        weeks_list = sorted(list(weeks)) 
+        week_list_dict = {
+            "week_list": weeks_list,
+            "week_count": week_count
+        }
+        return Response(week_list_dict)
     
 
 @api_view(['GET'])
